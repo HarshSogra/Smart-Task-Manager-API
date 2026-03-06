@@ -1,17 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from config import DATABASE_URL
+import os
 
-#create database engine
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {}
-)
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-#session maker
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+engine = create_engine(DATABASE_URL)
 
-#Base model
+SessionLocal = sessionmaker(bind=engine)
+
 Base = declarative_base()
-
-
