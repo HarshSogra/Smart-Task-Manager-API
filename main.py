@@ -16,10 +16,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 models.Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
 
 # CORS configuration
-# Allows local development, the production Vercel frontend, and Vercel preview URLs.
 allowed_origins = [
     "https://smart-task-manager-api-wine.vercel.app",
     "http://localhost:5500",
@@ -28,7 +28,7 @@ allowed_origins = [
     "http://127.0.0.1:3000",
 ]
 
-# Optional extra origins from environment variable, comma separated.
+# Optional extra origins from environment variable
 extra_origins = os.getenv("CORS_ALLOWED_ORIGINS", "")
 if extra_origins:
     allowed_origins.extend(
@@ -37,17 +37,13 @@ if extra_origins:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://smart-task-manager-api-wine.vercel.app",
-        "http://localhost:5500",
-        "http://127.0.0.1:5500",
-    ],
     allow_origins=allowed_origins,
     allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
